@@ -5,20 +5,20 @@ import (
 	"context"
 )
 
-type GetRestaurantStore interface {
-	GetBrandByID(ctx context.Context, id int) (*model.Restaurant, error)
+type SelectRestaurantStore interface {
+	GetRestaurantByID(ctx context.Context, id int) (*model.Restaurant, error)
 }
 
-type getRestaurantBiz struct {
-	store GetRestaurantStore
+type selectRestaurantBiz struct {
+	store SelectRestaurantStore
 }
 
-func NewGetRestaurantBusiness(store GetRestaurantStore) *getRestaurantBiz {
-	return &getRestaurantBiz{store: store}
+func NewSelectRestaurantBusiness(store SelectRestaurantStore) *selectRestaurantBiz {
+	return &selectRestaurantBiz{store: store}
 }
 
-func (biz *getRestaurantBiz) GetRestaurant() (*model.Restaurant, error) {
-	restaurant, err := biz.store.GetBrandByID(context.Background(), 1)
+func (biz *selectRestaurantBiz) GetRestaurant(ctx context.Context) (*model.Restaurant, error) {
+	restaurant, err := biz.store.GetRestaurantByID(ctx, 1)
 	if err != nil {
 		return nil, err
 	}

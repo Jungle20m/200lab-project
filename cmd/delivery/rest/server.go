@@ -45,6 +45,9 @@ func (s *Server) ListenAndServe() {
 
 func initRoute(handler *chi.Mux, appCtx *component.AppContext) {
 	handler.Route("/delivery", func(r chi.Router) {
-		r.Get("/restaurant", restaurant.GetRestaurant(appCtx))
+		r.Route("/restaurant", func(r chi.Router) {
+			r.Get("/:id", restaurant.GetRestaurant(appCtx))
+			r.Post("/", restaurant.InsertRestaurant(appCtx))
+		})
 	})
 }

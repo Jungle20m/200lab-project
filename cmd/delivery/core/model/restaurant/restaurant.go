@@ -1,8 +1,31 @@
 package restaurant
 
+import (
+	"200lab/common"
+)
+
 type Restaurant struct {
-	ID            int    `json:"id" db:"id"`
-	WorkingSiteID int    `json:"working_site_id" db:"working_site_id"`
-	Code          string `json:"code" db:"code"`
-	Name          string `json:"name" db:"name"`
+	common.SQLModel `json:",inline"`
+	OwnerID         int    `json:"owner_id" db:"owner_id"`
+	Name            string `json:"name" db:"name"`
+	Address         string `json:"address" db:"address"`
+	Logo            string `json:"logo" db:"logo"`
+	Cover           string `json:"cover" db:"cover"`
+}
+
+func (Restaurant) TableName() string {
+	return "restaurants"
+}
+
+type RestaurantInsert struct {
+	common.SQLModel `json:",inline"`
+	OwnerID         int    `json:"owner_id" db:"owner_id"`
+	Name            string `json:"name" db:"name"`
+	Address         string `json:"address" db:"address"`
+	Logo            string `json:"logo" db:"logo"`
+	Cover           string `json:"cover" db:"cover"`
+}
+
+func (RestaurantInsert) TableName() string {
+	return Restaurant{}.TableName()
 }
