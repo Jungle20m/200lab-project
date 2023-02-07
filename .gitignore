@@ -1,4 +1,5 @@
 .local
 
-go.mod
-go.sum
+.idea
+
+config.yaml
