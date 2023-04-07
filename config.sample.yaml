@@ -1,0 +1,27 @@
+
+
+app:
+  http_host:
+  http_port: "8000"
+
+mysql:
+  dns: "anhnv:123456@tcp(localhost:3306)/healthnet?charset=utf8mb4&parseTime=True&loc=Local"
+
+log:
+  # output int. Các giá trị không hợp lệ được coi như mặc định
+  # 0: mặc định, log ra terminal - dành cho dev
+  # 1: log ra file
+  output: 0
+  # formater: kiểu format của output
+  # 0: mặc định, format text - dành cho dev
+  # 1: format json - dành cho production
+  formatter: 1
+  # level: level log. giá trị càng lớn thì thông tin càng nhiều. Nằm ngoài giá trị hợp lệ thì lấy mặc định = 6
+  # 0: PanicLevel
+  # 1: FatalLevel
+  # 2: ErrorLevel
+  # 3: WarnLevel
+  # 4: InfoLevel
+  # 5: DebugLevel
+  # 6: TraceLevel
+  level: 2

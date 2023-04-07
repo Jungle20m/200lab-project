@@ -1,4 +1,5 @@
 .local
+config.yaml
+.idea
 
-go.mod
-go.sum
+resources/mysql
