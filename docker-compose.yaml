@@ -1,0 +1,17 @@
+version: "1.0"
+
+services:
+  mysql:
+    image: mysql:8.0.32
+
+    environment:
+      MYSQL_ROOT_PASSWORD: 123456a@
+      MYSQL_DATABASE: healthnet
+      MYSQL_USER: anhnv
+      MYSQL_PASSWORD: 123456
+
+    ports:
+      - "3306:3306"
+
+    volumes:
+      - ./resources/mysql:/var/lib/mysql
