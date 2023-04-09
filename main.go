@@ -1,22 +1,16 @@
 package main
 
 import (
+	"200lab/common"
 	"200lab/config"
-	"fmt"
-	"gorm.io/driver/mysql"
-	"gorm.io/gorm"
+	"200lab/internal/server"
+	"200lab/sdk/httpserver"
+	mMysql "200lab/sdk/mysql"
 	"log"
-	"time"
+	"os"
+	"os/signal"
+	"syscall"
 )
-
-type User struct {
-	ID         int        `gorm:"column:id"`
-	Name       string     `gorm:"column:name"`
-	Email      string     `gorm:"column:email"`
-	Phone      string     `gorm:"column:phone"`
-	CreateTime *time.Time `gorm:"column:create_time"`
-	UpdateTime *time.Time `gorm:"column:update_time"`
-}
 
 func main() {
 	conf, err := config.LoadConfig()
@@ -24,18 +18,22 @@ func main() {
 		log.Fatal(err)
 	}
 
-	fmt.Println(conf)
-
-	db, err := gorm.Open(mysql.Open(conf.Mysql.Dns), &gorm.Config{})
+	db, err := mMysql.New(conf.Mysql.Dns)
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	fmt.Println(db)
+	appContext := common.NewAppContext(conf, db)
 
-	var user User
+	httpHandler := server.NewHttpHandler(appContext)
 
-	db.First(&user)
+	server := httpserver.New(httpHandler, httpserver.WithAddress(conf.App.HttpHost, conf.App.HttpPort))
+	server.Start()
 
-	fmt.Println(user)
+	quit := make(chan os.Signal, 1)
+	signal.Notify(quit, os.Interrupt, syscall.SIGTERM)
+
+	<-quit
+
+	server.Shutdown()
 }
