@@ -38,8 +38,8 @@ func NewHttpHandler(appCtx common.IAppContext) *gin.Engine {
 	// Router
 	v1 := handler.Group("/v1/")
 	{
-		order := v1.Group("/orders")
-		order.POST("/", usertransport.GetByID(appCtx))
+		user := v1.Group("/users")
+		user.POST("/", usertransport.GetAll(appCtx))
 		//order.GET("/:order_code/customer", orderHttpTransport.GetOrderOfCustomer(appCtx))
 		//order.GET("/customer/:customer_code", orderHttpTransport.GetListOrderOfCustomer(appCtx))
 	}
